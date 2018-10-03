@@ -26,6 +26,7 @@ model<- train(Survived ~ Pclass + Sex + SibSp + Embarked +Parch + Fare,
               )
 model
 
+
 #Prediction time!
 
 test$Survived<- predict(model, newdata=test)
@@ -39,6 +40,21 @@ head(test)
 
 submission<- test%>%select("PassengerId", "Survived")
 write.table(submission, file="submission.csv",col.names=TRUE,row.names=FALSE, sep = ",")
+
+
+#Below here is a logistic regression to predict survival and the corresponding code to make a submission
+LMmodel<-glm(Survived ~ Pclass + Sex + SibSp + Embarked +Parch + Fare,data=train, family= "binomial")
+summary(LMmodel)
+#The p-values do not lend confidence here,but I will walk through the rest of the codeto make a submission
+test$LMSurvived<-predict(LMmodel, newdata=test, type="response")
+table(test$LMSurvived)
+#As shown here the data is in the wrong form, and we will simply use a 50% measure to choose survival.
+test$LMSurvived = as.numeric(test$LMSurvived >= 0.5)
+table(test$LMSurvived)
+
+LMsubmission<- test%>%select(PassengerId, Survived=LMSurvived)
+write.table(LMsubmission, file="LMsubmission.csv",col.names=TRUE,row.names=FALSE, sep = ",")
+# This submission scored lower than the early randomForest model, as suspected as the variables chosen did not appear very significant when lookign at the summary of them model
 
 
 
