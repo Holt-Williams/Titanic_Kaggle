@@ -1,0 +1,101 @@
+---
+title: "Titanic Kaggle EDA and Modelling"
+author: "Holt Williams"
+date: "October 3, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+train<- read.csv("C:/Users/garland/Desktop/Titanic_Kaggle_GitHub/train.csv")
+test<- read.csv("C:/Users/garland/Desktop/Titanic_Kaggle_GitHub/test.csv")
+library(tidyverse)
+library(PerformanceAnalytics)
+
+```
+
+## Titanic Dataset
+
+This is an R Markdown document that combines the scripts within this repository into one cohesive story. We will begin with simple Exploratory Data Analysis of the train and test data sets for the Kaggle Titanic Competition.
+
+To begin we run head() to see the general shape and types of data present
+
+```{r }
+nrow(train)
+nrow(test)
+
+head(train)
+head(test)
+
+```
+
+Summary() is useful to see basic information on each column,and it also informs us if there are any missing values.
+```{r}
+summary(train)
+summary(test)
+
+```
+```{r}
+str(train)
+```
+
+
+map() is also useful for this function
+```{r}
+map(train, ~sum(is.na(.)))
+map(test, ~sum(is.na(.)))
+```
+From here we can see that age is missing multiple values in each dataset, and Fare ismissing one value within the test dataset. To make our analysis simple we will fill the missing Fare value with the mean for the data as it will cause issues later on in our modellign steps
+```{r}
+test$Fare[is.na(test$Fare)]<- mean(test$Fare, na.rm=TRUE)
+```
+To fill the missing Age values we do the same thing:
+```{r}
+train$Age[is.na(train$Age)]<- round(mean(train$Age, na.rm=TRUE))
+test$Age[is.na(test$Age)]<- round(mean(test$Age, na.rm=TRUE))
+```
+Rerunning the previous map() functions we now have
+```{r}
+map(train, ~sum(is.na(.)))
+map(test, ~sum(is.na(.)))
+```
+
+##Survived
+Now we can look at each variable individually to see its characteristics, beginning with the outcome variable: Survived. Here, a 0 indicates an individual perished while a 1 means they survived. Below youcan see many more indivduals perished (549) to survived (342).
+```{r echo=FALSE}
+table(train$Survived)
+train%>%ggplot(aes(as.factor(Survived)))+geom_histogram(stat="count")
+#train%>%ggplot(aes(as.factor(Survived),fill=as.factor(Sex)))+geom_bar(stat="count")
+```
+
+## Age
+Here is a simple distribution of age
+```{r}
+train%>%ggplot()+geom_histogram(aes(Age), binwidth=1)
+train%>%ggplot(aes(Age))+geom_density()
+train%>%ggplot(aes(Age, colour=as.factor(Survived)))+geom_density()
+```
+## Pclass
+This is a measure of the class of a passenger: 1, 2, or 3 class
+```{r}
+train%>%ggplot(aes(Pclass))+geom_histogram()
+train%>%ggplot(aes(Pclass, fill=as.factor(Survived)))+geom_bar()
+
+```
+
+
+
+It can beneficail to look at the correlations ofdiffrent varaibles:
+
+```{r}
+cor(train[,unlist(lapply(train, is.numeric))])
+chart.Correlation(train[,unlist(lapply(train, is.numeric))])
+```
+
+
+
+
+
+```{r pressure, echo=FALSE}
+
+```
