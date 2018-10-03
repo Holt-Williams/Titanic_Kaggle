@@ -5,9 +5,9 @@
 library(tidyverse)
 
 
-train<- read.csv("C:/Users/garland/Desktop/Titanic_Kaggle_GitHub/train.csv")
-test<- read.csv("C:/Users/garland/Desktop/Titanic_Kaggle_GitHub/test.csv")
-sample<- read.csv("C:/Users/garland/Desktop/Titanic_Kaggle_GitHub/gender_submission.csv")
+train<- read.csv("/Titanic_Kaggle_GitHub/train.csv")
+test<- read.csv("/Titanic_Kaggle_GitHub/test.csv")
+
 #it is helpful to look at the head (and tail) of a dataset to maek sure it loaded the data as expected.
 head(train)
 head(test)
