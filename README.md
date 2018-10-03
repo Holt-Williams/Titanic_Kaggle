@@ -1,6 +1,6 @@
 # Titanic_Kaggle
 
-This is a workign prject for the Titanic Kaggle competition
+This is a workign project for the Titanic Kaggle competition
 
 Files:
 titanic_EDA - Exploratory Data Analysis of the dataset
