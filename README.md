@@ -4,4 +4,4 @@ This is a workign project for the Titanic Kaggle competition
 
 Files:
 titanic_EDA - Exploratory Data Analysis of the dataset
-titanic_prediction_script - random forest prediction on the kaggle used to create submission.csv
+/n titanic_prediction_script - random forest prediction on the kaggle used to create submission.csv
