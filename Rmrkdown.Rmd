@@ -2,7 +2,7 @@
 title: "Titanic Kaggle EDA and Modelling"
 author: "Holt Williams"
 date: "October 3, 2018"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
